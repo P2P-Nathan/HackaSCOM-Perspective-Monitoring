@@ -1,0 +1,88 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <MonitorTypes>
+      <UnitMonitorType ID="HackaSCOM.Perspective.Monitoring.UnitMonitorType.ApiValueHealthyUnitMonitorType" Accessibility="Internal">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="Healthy"/>
+          <MonitorTypeState ID="Warning"/>
+          <MonitorTypeState ID="Critical"/>
+        </MonitorTypeStates>
+        <Configuration>
+          <IncludeSchemaTypes>
+            <SchemaType>System!System.ExpressionEvaluatorSchema</SchemaType>
+          </IncludeSchemaTypes>
+          <xsd:element name="IntervalSeconds" type="xsd:int"/>
+          <xsd:element name="Uri" type="xsd:string" />
+          <xsd:element name="Method" type="xsd:string" />
+          <xsd:element name="Format" type="xsd:string" />
+          <xsd:element name="ValuePath" type="xsd:string" />
+          <xsd:element name="PostBody" type="xsd:string" />
+          <xsd:element name="WarningThreshold" type="xsd:int"/>
+          <xsd:element name="CriticalThreshold" type="xsd:int"/>
+          <xsd:element name="Operator" type="CriteriaCompareType" default="Equal"/>
+        </Configuration>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="GetApiData" TypeID="HackaSCOM.Perspective.Monitoring.Module.GetRestValueDataSource">
+              <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+              <Uri>$Config/Uri$</Uri>
+              <Method>$Config/Method$</Method>
+              <Format>$Config/Format$</Format>
+              <ValuePath>$Config/ValuePath$</ValuePath>
+              <PostBody>$Config/PostBody$</PostBody>
+            </DataSource>
+            <ConditionDetection ID="HealthyCD" TypeID="HackaSCOM.Perspective.Monitoring.Module.IsHealthyConditionDetection">
+              <WarningThreshold>$Config/WarningThreshold$</WarningThreshold>
+              <CriticalThreshold>$Config/CriticalThreshold$</CriticalThreshold>
+              <Operator>$Config/Operator$</Operator>
+            </ConditionDetection>
+            <ConditionDetection ID="WarningCD" TypeID="HackaSCOM.Perspective.Monitoring.Module.IsWarningConditionDetection">
+              <WarningThreshold>$Config/WarningThreshold$</WarningThreshold>
+              <CriticalThreshold>$Config/CriticalThreshold$</CriticalThreshold>
+              <Operator>$Config/Operator$</Operator>
+            </ConditionDetection>
+            <ConditionDetection ID="CriticalCD" TypeID="HackaSCOM.Perspective.Monitoring.Module.IsCriticalConditionDetection">
+              <WarningThreshold>$Config/WarningThreshold$</WarningThreshold>
+              <CriticalThreshold>$Config/CriticalThreshold$</CriticalThreshold>
+              <Operator>$Config/Operator$</Operator>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="Healthy">
+              <Node ID="HealthyCD">
+                <Node ID="GetApiData"/>
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Warning">
+              <Node ID="WarningCD">
+                <Node ID="GetApiData"/>
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Critical">
+              <Node ID="CriticalCD">
+                <Node ID="GetApiData"/>
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+          <OnDemandDetections>
+            <OnDemandDetection MonitorTypeStateID="Healthy">
+              <Node ID="HealthyCD">
+                <Node ID="GetApiData"/>
+              </Node>
+            </OnDemandDetection>
+            <OnDemandDetection MonitorTypeStateID="Warning">
+              <Node ID="WarningCD">
+                <Node ID="GetApiData"/>
+              </Node>
+            </OnDemandDetection>
+            <OnDemandDetection MonitorTypeStateID="Critical">
+              <Node ID="CriticalCD">
+                <Node ID="GetApiData"/>
+              </Node>
+            </OnDemandDetection>
+          </OnDemandDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+    </MonitorTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

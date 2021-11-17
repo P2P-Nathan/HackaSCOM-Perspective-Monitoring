@@ -1,0 +1,260 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PresentationTypes>
+    <UIPageSets>
+      <UIPageSet ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet" TypeDefinitionID="HackaSCOM.Perspective.Authoring.SQLPerspective.Template">
+        <UIPageReferences>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.NameAndDescription" PageID="System!System.NameAndDescriptionPage" Usage="CreationAndUpdate">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:element name="Name">
+                    <xsl:value-of select="//Name" />
+                  </xsl:element>
+                  <xsl:element name="Description">
+                    <xsl:value-of select="//Description" />
+                  </xsl:element>
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+          </UIPageReference>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString" PageID="MSSL!Microsoft.SystemCenter.SyntheticTransactions.OleDbCheck.Template.ConfigPage" Usage="CreationAndUpdate">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:element name="TypeId">
+                    <xsl:value-of select="//TypeId" />
+                  </xsl:element>
+                  <xsl:element name="ConnectionString">
+                    <xsl:value-of select="//ConnectionString" />
+                  </xsl:element>
+                  <xsl:if test="count(//Query) &gt; 0">
+                    <xsl:element name="Query">
+                      <xsl:value-of select="//Query" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//QueryTimeout) &gt; 0">
+                    <xsl:element name="QueryTimeout">
+                      <xsl:value-of select="//QueryTimeout" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//HasQuery) &gt; 0">
+                    <xsl:element name="HasQuery">
+                      <xsl:value-of select="//HasQuery" />
+                    </xsl:element>
+                  </xsl:if>
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+            <Title ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString.Title" />
+            <SubTitle ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString.SubTitle" />
+            <TabName ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString.TabName" />
+          </UIPageReference>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance" PageID="MSSL!Microsoft.SystemCenter.SyntheticTransactions.OleDbCheck.Template.QueryPerformancePage" Usage="CreationAndUpdate">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:if test="count(//EnableConnectionTimeMonitor) &gt; 0">
+                    <xsl:element name="EnableConnectionTimeMonitor">
+                      <xsl:value-of select="//EnableConnectionTimeMonitor" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//EnableQueryExecutionTimeMonitor) &gt; 0">
+                    <xsl:element name="EnableQueryExecutionTimeMonitor">
+                      <xsl:value-of select="//EnableQueryExecutionTimeMonitor" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//EnableQueryFetchTimeMonitor) &gt; 0">
+                    <xsl:element name="EnableQueryFetchTimeMonitor">
+                      <xsl:value-of select="//EnableQueryFetchTimeMonitor" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//ConnectionTimeWarningThreshold) &gt; 0">
+                    <xsl:element name="ConnectionTimeWarningThreshold">
+                      <xsl:value-of select="//ConnectionTimeWarningThreshold" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//ConnectionTimeErrorThreshold) &gt; 0">
+                    <xsl:element name="ConnectionTimeErrorThreshold">
+                      <xsl:value-of select="//ConnectionTimeErrorThreshold" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//QueryExecutionTimeWarningThreshold) &gt; 0">
+                    <xsl:element name="QueryExecutionTimeWarningThreshold">
+                      <xsl:value-of select="//QueryExecutionTimeWarningThreshold" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//QueryExecutionTimeErrorThreshold) &gt; 0">
+                    <xsl:element name="QueryExecutionTimeErrorThreshold">
+                      <xsl:value-of select="//QueryExecutionTimeErrorThreshold" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//QueryFetchTimeWarningThreshold) &gt; 0">
+                    <xsl:element name="QueryFetchTimeWarningThreshold">
+                      <xsl:value-of select="//QueryFetchTimeWarningThreshold" />
+                    </xsl:element>
+                  </xsl:if>
+                  <xsl:if test="count(//QueryFetchTimeErrorThreshold) &gt; 0">
+                    <xsl:element name="QueryFetchTimeErrorThreshold">
+                      <xsl:value-of select="//QueryFetchTimeErrorThreshold" />
+                    </xsl:element>
+                  </xsl:if>
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+            <Title ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance.Title" />
+            <SubTitle ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance.SubTitle" />
+            <TabName ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance.TabName" />
+          </UIPageReference>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ChooseOleDbWatcherNodes" PageID="MSSL!Microsoft.SystemCenter.SyntheticTransactions.OleDbCheck.Template.WatcherPage" Usage="CreationAndUpdate">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:element name="PollIntervalInSeconds">
+                    <xsl:value-of select="//PollIntervalInSeconds" />
+                  </xsl:element>
+                  <xsl:copy-of select="//IncludeList" />
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+            <Title ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ChooseOleDbWatcherNodes.Title" />
+            <SubTitle ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ChooseOleDbWatcherNodes.SubTitle" />
+            <TabName ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ChooseOleDbWatcherNodes.TabName" />
+          </UIPageReference>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.AlertConfiguration" PageID="HackaSCOM.Perspective.Authoring.AlertingConfigurationPage" Usage="CreationAndUpdate">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:element name="AlertMessage">
+                    <xsl:value-of select="//AlertMessage" />
+                  </xsl:element>
+                  <xsl:element name="Operator">
+                    <xsl:value-of select="//Operator" />
+                  </xsl:element>
+                  <xsl:element name="WarningThreshold">
+                    <xsl:value-of select="//WarningThreshold" />
+                  </xsl:element>
+                  <xsl:element name="CriticalThreshold">
+                    <xsl:value-of select="//CriticalThreshold" />
+                  </xsl:element>
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+          </UIPageReference>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.Summary" PageID="MSSL!Microsoft.SystemCenter.SyntheticTransactions.OleDbCheck.Template.SummaryPage" Usage="CreationOnly">
+            <Title ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.Summary.Title" />
+            <SubTitle ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.Summary.SubTitle" />
+            <TabName ID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.Summary.TabName" />
+          </UIPageReference>
+        </UIPageReferences>
+        <OutputTransform>
+          <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+            <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+            <xsl:template match="/">
+              <xsl:element name="Configuration">
+                <xsl:element name="TypeId">
+                  <xsl:value-of select="/TypeId" />
+                </xsl:element>
+                <xsl:element name="Name">
+                  <xsl:value-of select="/Name" />
+                </xsl:element>
+                <xsl:element name="Description">
+                  <xsl:value-of select="/Description" />
+                </xsl:element>
+                <xsl:element name="LocaleId">
+                  <xsl:value-of select="/LocaleId" />
+                </xsl:element>
+                <xsl:element name="ConnectionString">
+                  <xsl:value-of select="/ConnectionString" />
+                </xsl:element>
+                <xsl:element name="PollIntervalInSeconds">
+                  <xsl:value-of select="/PollIntervalInSeconds" />
+                </xsl:element>
+                <xsl:copy-of select="/IncludeList" />
+                <xsl:element name="WatcherComputersList">
+                  <xsl:value-of select="/WatcherComputersList" />
+                </xsl:element>
+                <xsl:element name="UniquenessKey">
+                  <xsl:value-of select="/UniquenessKey" />
+                </xsl:element>
+                <xsl:element name="Query">
+                  <xsl:value-of select="/Query" />
+                </xsl:element>
+                <xsl:element name="QueryTimeout">
+                  <xsl:value-of select="/QueryTimeout" />
+                </xsl:element>
+                <xsl:element name="HasQuery">
+                  <xsl:value-of select="/HasQuery" />
+                </xsl:element>
+                <xsl:element name="EnableConnectionTimeMonitor">
+                  <xsl:value-of select="/EnableConnectionTimeMonitor" />
+                </xsl:element>
+                <xsl:element name="EnableQueryExecutionTimeMonitor">
+                  <xsl:value-of select="/EnableQueryExecutionTimeMonitor" />
+                </xsl:element>
+                <xsl:element name="EnableQueryFetchTimeMonitor">
+                  <xsl:value-of select="/EnableQueryFetchTimeMonitor" />
+                </xsl:element>
+                <xsl:element name="ConnectionTimeWarningThreshold">
+                  <xsl:value-of select="/ConnectionTimeWarningThreshold" />
+                </xsl:element>
+                <xsl:element name="ConnectionTimeErrorThreshold">
+                  <xsl:value-of select="/ConnectionTimeErrorThreshold" />
+                </xsl:element>
+                <xsl:element name="QueryExecutionTimeWarningThreshold">
+                  <xsl:value-of select="/QueryExecutionTimeWarningThreshold" />
+                </xsl:element>
+                <xsl:element name="QueryExecutionTimeErrorThreshold">
+                  <xsl:value-of select="/QueryExecutionTimeErrorThreshold" />
+                </xsl:element>
+                <xsl:element name="QueryFetchTimeWarningThreshold">
+                  <xsl:value-of select="/QueryFetchTimeWarningThreshold" />
+                </xsl:element>
+                <xsl:element name="QueryFetchTimeErrorThreshold">
+                  <xsl:value-of select="/QueryFetchTimeErrorThreshold" />
+                </xsl:element>
+                <xsl:element name="Operator">
+                  <xsl:value-of select="//Operator" />
+                </xsl:element>
+                <xsl:element name="WarningThreshold">
+                  <xsl:value-of select="//WarningThreshold" />
+                </xsl:element>
+                <xsl:element name="CriticalThreshold">
+                  <xsl:value-of select="//CriticalThreshold" />
+                </xsl:element>
+              </xsl:element>
+            </xsl:template>
+          </xsl:stylesheet>
+        </OutputTransform>
+      </UIPageSet>
+    </UIPageSets>
+  </PresentationTypes>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString" SubElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString.SubTitle">
+          <Name>Test OLE DB Data Source Settings</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString" SubElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString.TabName">
+          <Name>Connection String</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString" SubElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.ConnectionString.Title">
+          <Name>Connection String</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance" SubElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance.SubTitle">
+          <Name>Set Query Performance Thresholds</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance" SubElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance.TabName">
+          <Name>Query Performance</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance" SubElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.TemplatePageSet.Reference.QueryPerformance.Title">
+          <Name>Query Performance</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

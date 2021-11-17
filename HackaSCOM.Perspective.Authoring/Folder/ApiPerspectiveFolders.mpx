@@ -1,0 +1,16 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Presentation>
+    <!--
+    You must include a folder and place your template in the folder using a FolderItem. OpsMgr will detect that 
+    this is a special template folder and instead of placing it in the monitoring view, it will show your 
+    template in the authoring templates list.
+    -->
+    <Folders>
+      <Folder ID="HackaSCOM.Perspective.Authoring.ApiFolder" Accessibility="Public" ParentFolder="OM!Microsoft.SystemCenter.OperationsManager.Authoring.TemplateParsers.Root"/>
+    </Folders>
+    <FolderItems>
+      <FolderItem ElementID="HackaSCOM.Perspective.Authoring.ApiTemplate" ID="HackaSCOM.Perspective.Authoring.ApiTemplate" Folder="HackaSCOM.Perspective.Authoring.ApiFolder"/>
+      <FolderItem ElementID="HackaSCOM.Perspective.Authoring.ApiPerspectiveParser" ID="HackaSCOM.Perspective.Authoring.ApiPerspectiveParser" Folder="HackaSCOM.Perspective.Authoring.ApiFolder"/>
+    </FolderItems>
+  </Presentation>
+</ManagementPackFragment>

@@ -1,0 +1,168 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PresentationTypes>
+    <UIPageSets>
+      <UIPageSet ID="HackaSCOM.Perspective.Authoring.ApiConnectionPageSet" TypeDefinitionID="HackaSCOM.Perspective.Authoring.ApiTemplate">
+        <UIPageReferences>
+          <UIPageReference ID="CHRW.Custom.QueueAuthoring.DBQueue.TemplatePageSet.Reference.NameAndDescription" PageID="System!System.NameAndDescriptionPage" Usage="CreationAndUpdate">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:element name="Name">
+                    <xsl:value-of select="//Name" />
+                  </xsl:element>
+                  <xsl:element name="Description">
+                    <xsl:value-of select="//Description" />
+                  </xsl:element>
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+          </UIPageReference>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.ApiConnectionPageSet.Schedule.Create" PageID="System!System.SimpleSchedulerPage" Usage="CreationOnly">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:element name="SimpleReccuringSchedule">
+                    <xsl:element name="Interval">
+                      <xsl:attribute name="Unit">Minutes</xsl:attribute>5
+                    </xsl:element>
+                  </xsl:element>
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+            <Title ID="Microsoft.Windows.ScriptBasedPerformancePageSet.Reference1.Title" />
+            <TabName ID="Microsoft.Windows.ScriptBasedPerformancePageSet.Reference1.TabName" />
+          </UIPageReference>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.ApiConnectionPageSet.Schedule.Update" PageID="System!System.SimpleSchedulerPage" Usage="UpdateOnly">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:element name="SimpleReccuringSchedule">
+                    <xsl:element name="Interval">
+                      <xsl:value-of select="//IntervalSeconds" />
+                    </xsl:element>
+                    <xsl:if test="boolean(string-length(/SyncTime))">
+                      <xsl:copy-of select="/SyncTime" />
+                    </xsl:if>
+                  </xsl:element>
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+            <Title ID="Microsoft.Windows.ScriptBasedPerformancePageSet.Reference1.Title" />
+            <TabName ID="Microsoft.Windows.ScriptBasedPerformancePageSet.Reference1.TabName" />
+          </UIPageReference>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.ApiConnectionPageSet.UriConfiguration" PageID="HackaSCOM.Perspective.Authoring.UriConfigurationPage" Usage="CreationAndUpdate">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:element name="Uri">
+                    <xsl:value-of select="//Uri" />
+                  </xsl:element>
+                  <xsl:element name="Method">
+                    <xsl:value-of select="//Method" />
+                  </xsl:element>
+                  <xsl:element name="Format">
+                    <xsl:value-of select="//Format" />
+                  </xsl:element>
+                  <xsl:element name="ValuePath">
+                    <xsl:value-of select="//ValuePath" />
+                  </xsl:element>
+                  <xsl:element name="PostBody">
+                    <xsl:value-of select="//PostBody" />
+                  </xsl:element>
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+          </UIPageReference>
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.ApiConnectionPageSet.AlertConfiguration" PageID="HackaSCOM.Perspective.Authoring.AlertingConfigurationPage" Usage="CreationAndUpdate">
+            <InputTransform>
+              <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+                <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+                <xsl:template match="/">
+                  <xsl:element name="AlertMessage">
+                    <xsl:value-of select="//AlertMessage" />
+                  </xsl:element>
+                  <xsl:element name="Operator">
+                    <xsl:value-of select="//Operator" />
+                  </xsl:element>
+                  <xsl:element name="WarningThreshold">
+                    <xsl:value-of select="//WarningThreshold" />
+                  </xsl:element>
+                  <xsl:element name="CriticalThreshold">
+                    <xsl:value-of select="//CriticalThreshold" />
+                  </xsl:element>
+                </xsl:template>
+              </xsl:stylesheet>
+            </InputTransform>
+          </UIPageReference>
+        </UIPageReferences>
+        <OutputTransform>
+          <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+            <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
+            <xsl:template match="/">
+              <xsl:element name="Configuration">
+                <xsl:element name="Name">
+                  <xsl:value-of select="//Name" />
+                </xsl:element>
+                <xsl:element name="Description">
+                  <xsl:value-of select="//Description" />
+                </xsl:element>
+                <xsl:element name="IntervalSeconds">
+                  <xsl:variable name="RawInterval" select="/SimpleReccuringSchedule/Interval" />
+                  <xsl:variable name="Units" select="/SimpleReccuringSchedule/Interval/@Unit" />
+                  <xsl:choose>
+                    <xsl:when test="not(boolean($Units)) or $Units='Seconds'">
+                      <xsl:value-of select="$RawInterval" />
+                    </xsl:when>
+                    <xsl:when test="$Units='Minutes'">
+                      <xsl:value-of select="$RawInterval*60" />
+                    </xsl:when>
+                    <xsl:when test="$Units='Hours'">
+                      <xsl:value-of select="$RawInterval*3600" />
+                    </xsl:when>
+                    <xsl:when test="$Units='Days'">
+                      <xsl:value-of select="$RawInterval*86400" />
+                    </xsl:when>
+                  </xsl:choose>
+                </xsl:element>
+                <xsl:element name="SyncTime">
+                  <xsl:value-of select="/SimpleReccuringSchedule/SyncTime" />
+                </xsl:element>
+                <xsl:element name="AlertMessage">
+                  <xsl:value-of select="//AlertMessage" />
+                </xsl:element>
+                <xsl:element name="Operator">
+                  <xsl:value-of select="//Operator" />
+                </xsl:element>
+                <xsl:element name="WarningThreshold">
+                  <xsl:value-of select="//WarningThreshold" />
+                </xsl:element>
+                <xsl:element name="CriticalThreshold">
+                  <xsl:value-of select="//CriticalThreshold" />
+                </xsl:element>
+                <xsl:element name="Uri">
+                  <xsl:value-of select="//Uri" />
+                </xsl:element>
+                <xsl:element name="Method">
+                  <xsl:value-of select="//Method" />
+                </xsl:element>
+                <xsl:element name="Format">
+                  <xsl:value-of select="//Format" />
+                </xsl:element>
+                <xsl:element name="ValuePath">
+                  <xsl:value-of select="//ValuePath" />
+                </xsl:element>
+                <xsl:element name="PostBody">
+                  <xsl:value-of select="//PostBody" />
+                </xsl:element>
+              </xsl:element>
+            </xsl:template>
+          </xsl:stylesheet>
+        </OutputTransform>
+      </UIPageSet>
+    </UIPageSets>
+  </PresentationTypes>
+</ManagementPackFragment>

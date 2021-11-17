@@ -1,0 +1,134 @@
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <ProjectGuid>{f72cd8c4-6e3b-45b5-8c66-998e1dff1d31}</ProjectGuid>
+    <RootNamespace>HackaSCOM.Perspective.Authoring</RootNamespace>
+    <Name>HackaSCOM.Perspective.Authoring</Name>
+    <ManagementPackName>HackaSCOM.Perspective.Authoring</ManagementPackName>
+    <Version>1.0.0.0</Version>
+    <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
+    <MpFrameworkProfile>OM</MpFrameworkProfile>
+    <ProductVersion>1.1.0.0</ProductVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug\</OutputPath>
+    <GenerateSealed>True</GenerateSealed>
+    <Company>Hacka SCOM</Company>
+    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
+    <DelaySigning>False</DelaySigning>
+    <AssemblyOriginatorKeyFile>C:\Users\Nathan\Source\Repos\HackaSCOM Perspective Monitoring\HackaSCOM.Perspective.UI\HackaSCOM_SimpleKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>false</DebugSymbols>
+    <OutputPath>bin\Release\</OutputPath>
+    <DelaySigning>False</DelaySigning>
+    <Company>Hacka SCOM</Company>
+    <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
+    <DelaySign>false</DelaySign>
+    <AssemblyOriginatorKeyFile>C:\Users\Nathan\Source\Repos\HackaSCOM Perspective Monitoring\HackaSCOM.Perspective.UI\HackaSCOM_SimpleKey.snk</AssemblyOriginatorKeyFile>
+    <GenerateSealed>True</GenerateSealed>
+  </PropertyGroup>
+  <ItemGroup>
+    <ManagementPackReference Include="Microsoft.SystemCenter.DataWarehouse.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.SystemCenter.DataWarehouse.Library.mp</HintPath>
+      <Alias>SCDW</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Library">
+      <Alias>SC</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.OperationsManager.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.SystemCenter.OperationsManager.Library.mp</HintPath>
+      <Alias>OM</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.SyntheticTransactions.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.SystemCenter.SyntheticTransactions.Library.mp</HintPath>
+      <Alias>MSSL</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.Windows.Library">
+      <Alias>Windows</Alias>
+      <PackageToBundle>False</PackageToBundle>
+      <MinVersion>7.0.0.0</MinVersion>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Health.Library">
+      <Alias>Health</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Library">
+      <Alias>System</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Visualization.Library">
+      <Alias>Visualization</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Performance.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Performance.Library.mp</HintPath>
+      <Alias>Performance</Alias>
+      <MinVersion>7.0.8433.0</MinVersion>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Folder\ApiPerspectiveFolders.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Folder\DBPerspectiveFolder.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Resources.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ShellClasses.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\ApiPerspectiveTemplate.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Templates\DBPerspectiveTemplate.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIPages\AlertConfigurationPage.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIPages\ApiConnectionPageSet.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIPages\ApiPerspectiveParser.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIPages\DBPerspectivePageSet.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UIPages\UriConfigurationPage.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Folder" />
+    <Folder Include="UIPages" />
+    <Folder Include="Templates" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HackaSCOM.Perspective.Monitoring\HackaSCOM.Perspective.Monitoring.mpproj">
+      <Name>HackaSCOM.Perspective.Monitoring</Name>
+      <Project>{2700bc6f-732d-4a4a-a0dd-935a0615b2ef}</Project>
+      <Private>True</Private>
+      <Alias>HackaSCOMMonitoring</Alias>
+    </ProjectReference>
+    <ProjectReference Include="..\HackaSCOM.Perspective.UI\HackaSCOM.Perspective.UI.csproj">
+      <Name>HackaSCOM.Perspective.UI</Name>
+      <Project>{f2b8b97c-90e2-44d1-9172-f7f4de4db10e}</Project>
+      <Private>True</Private>
+      <PackageToBundle>True</PackageToBundle>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
+</Project>

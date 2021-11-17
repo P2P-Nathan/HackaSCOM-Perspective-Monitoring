@@ -1,0 +1,70 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <MonitorTypes>
+      <UnitMonitorType ID="HackaSCOM.Perspective.Monitoring.UnitMonitorType.ApiConnectionHealthyUnitMonitorType" Accessibility="Internal">
+        <MonitorTypeStates>
+          <MonitorTypeState ID="Connected"/>
+          <MonitorTypeState ID="Failing"/>
+        </MonitorTypeStates>
+        <Configuration>
+          <xsd:element name="IntervalSeconds" type="xsd:int"/>
+          <xsd:element name="Uri" type="xsd:string" />
+          <xsd:element name="Method" type="xsd:string" />
+          <xsd:element name="Format" type="xsd:string" />
+          <xsd:element name="ValuePath" type="xsd:string" />
+          <xsd:element name="PostBody" type="xsd:string" />
+        </Configuration>
+        <MonitorImplementation>
+          <MemberModules>
+            <DataSource ID="GetApiData" TypeID="HackaSCOM.Perspective.Monitoring.Module.GetRestValueDataSource">
+              <IntervalSeconds>$Config/IntervalSeconds$</IntervalSeconds>
+              <Uri>$Config/Uri$</Uri>
+              <Method>$Config/Method$</Method>
+              <Format>$Config/Format$</Format>
+              <ValuePath>$Config/ValuePath$</ValuePath>
+              <PostBody>$Config/PostBody$</PostBody>
+            </DataSource>
+            <ConditionDetection TypeID="System!System.ExpressionFilter" ID="ConnectedCD">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Property[@Name='Success']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">true</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+            <ConditionDetection TypeID="System!System.ExpressionFilter" ID="FailingCD">
+              <Expression>
+                <SimpleExpression>
+                  <ValueExpression>
+                    <XPathQuery Type="String">Property[@Name='Success']</XPathQuery>
+                  </ValueExpression>
+                  <Operator>Equal</Operator>
+                  <ValueExpression>
+                    <Value Type="String">false</Value>
+                  </ValueExpression>
+                </SimpleExpression>
+              </Expression>
+            </ConditionDetection>
+          </MemberModules>
+          <RegularDetections>
+            <RegularDetection MonitorTypeStateID="Connected">
+              <Node ID="ConnectedCD">
+                <Node ID="GetApiData"/>
+              </Node>
+            </RegularDetection>
+            <RegularDetection MonitorTypeStateID="Failing">
+              <Node ID="FailingCD">
+                <Node ID="GetApiData"/>
+              </Node>
+            </RegularDetection>
+          </RegularDetections>
+        </MonitorImplementation>
+      </UnitMonitorType>
+    </MonitorTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

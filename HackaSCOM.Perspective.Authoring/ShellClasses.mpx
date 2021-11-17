@@ -1,0 +1,27 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <!--Without this link VSAE will clear the reference to the parent pack, causing failure-->
+        <ClassType ID="FakeClass" Abstract="false" Hosted="true" Base="HackaSCOMMonitoring!HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" Accessibility="Internal"></ClassType>
+        <ClassType ID="FakeClassTwo" Abstract="false" Hosted="false" Base="SCDW!Microsoft.SystemCenter.DataWarehouse.DataSet" Accessibility="Internal"></ClassType>
+        <ClassType ID="FakeClassThree" Abstract="false" Hosted="false" Base="Windows!Microsoft.Windows.Computer" Accessibility="Internal"></ClassType>
+      </ClassTypes>
+    </EntityTypes>
+    <DataTypes>
+      <!--Without this link VSAE will clear the reference to the parent pack, causing failure-->
+      <DataType ID="System.Performance.BaseData.Fake" Base="Performance!System.Performance.BaseData" Accessibility="Public">
+        <Implementation>
+          <Assembly>Res.HackaSCOM.Perspective.UI</Assembly>
+          <Type>NotImplemented</Type>
+        </Implementation>
+      </DataType>
+      <DataType ID="AlertUpdateData.Fake" Base="Health!System.Health.AlertUpdateData" Accessibility="Internal">
+        <Implementation>
+          <Assembly>Res.HackaSCOM.Perspective.UI</Assembly>
+          <Type>NotImplemented</Type>
+        </Implementation>
+      </DataType>
+    </DataTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

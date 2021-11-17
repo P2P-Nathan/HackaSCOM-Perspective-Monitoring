@@ -1,0 +1,65 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <ModuleTypes>
+      <DataSourceModuleType ID="HackaSCOM.Perspective.Monitoring.Module.GetRestValueDataSource" Accessibility="Internal">
+        <Configuration>
+          <xsd:element name="IntervalSeconds" type="xsd:int"/>
+          <xsd:element name="Uri" type="xsd:string" />
+          <xsd:element name="Method" type="xsd:string" />
+          <xsd:element name="Format" type="xsd:string" />
+          <xsd:element name="ValuePath" type="xsd:string" />
+          <xsd:element name="PostBody" type="xsd:string" />
+        </Configuration>
+        <ModuleImplementation>
+          <Composite>
+            <MemberModules>
+              <DataSource ID="Scheduler" TypeID="System!System.Scheduler">
+                <Scheduler>
+                  <SimpleReccuringSchedule>
+                    <Interval>$Config/IntervalSeconds$</Interval>
+                    <SyncTime />
+                  </SimpleReccuringSchedule>
+                  <ExcludeDates />
+                </Scheduler>
+              </DataSource>
+              <ProbeAction ID="GetData" TypeID="Windows!Microsoft.Windows.PowerShellPropertyBagProbe">
+                <ScriptName>GetCertData.ps1</ScriptName>
+                <ScriptBody>$IncludeFileContent/Modules/GetRestReading.ps1$</ScriptBody>
+                <SnapIns/>
+                <Parameters>
+                  <Parameter>
+                    <Name>Uri</Name>
+                    <Value>$Config/Uri$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>Method</Name>
+                    <Value>$Config/Method$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>Format</Name>
+                    <Value>$Config/Format$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>ValuePath</Name>
+                    <Value>$Config/ValuePath$</Value>
+                  </Parameter>
+                  <Parameter>
+                    <Name>PostBody</Name>
+                    <Value>$Config/PostBody$</Value>
+                  </Parameter>
+                </Parameters>
+                <TimeoutSeconds>300</TimeoutSeconds>
+              </ProbeAction>
+            </MemberModules>
+            <Composition>
+              <Node ID="GetData">
+                <Node ID="Scheduler" />
+              </Node>
+            </Composition>
+          </Composite>
+        </ModuleImplementation>
+        <OutputType>System!System.BaseData</OutputType>
+      </DataSourceModuleType>
+    </ModuleTypes>
+  </TypeDefinitions>
+</ManagementPackFragment>

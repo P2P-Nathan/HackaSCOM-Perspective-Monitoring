@@ -1,0 +1,15 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Presentation>
+    <!--
+    You must include a folder and place your template in the folder using a FolderItem. OpsMgr will detect that 
+    this is a special template folder and instead of placing it in the monitoring view, it will show your 
+    template in the authoring templates list.
+    -->
+    <Folders>
+      <Folder ID="HackaSCOM.Perspective.Authoring.SQLPerspective.Template.Folder" Accessibility="Public" />
+    </Folders>
+    <FolderItems>
+      <FolderItem ElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.Template" ID="HackaSCOM.Perspective.Authoring.SQLPerspective.Template" Folder="HackaSCOM.Perspective.Authoring.SQLPerspective.Template.Folder" />
+    </FolderItems>
+  </Presentation>
+</ManagementPackFragment>

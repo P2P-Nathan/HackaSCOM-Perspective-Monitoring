@@ -1,42 +1,140 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <ProjectGuid>{e703dfe5-1fb4-4c88-bc4f-89e5b4c851a2}</ProjectGuid>
+    <ProjectGuid>{2700bc6f-732d-4a4a-a0dd-935a0615b2ef}</ProjectGuid>
     <RootNamespace>HackaSCOM.Perspective.Monitoring</RootNamespace>
     <Name>HackaSCOM.Perspective.Monitoring</Name>
     <ManagementPackName>HackaSCOM.Perspective.Monitoring</ManagementPackName>
     <Version>1.0.0.0</Version>
     <MpFrameworkVersion>v7.0.2</MpFrameworkVersion>
-    <MpFrameworkProfile>SM</MpFrameworkProfile>
+    <MpFrameworkProfile>OM</MpFrameworkProfile>
     <ProductVersion>1.1.0.0</ProductVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\Debug\</OutputPath>
-    <GenerateSealed>false</GenerateSealed>
-    <Company>MyCompany</Company>
+    <GenerateSealed>True</GenerateSealed>
+    <Company>HACK A SCOM</Company>
     <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
-    <DelaySigning>false</DelaySigning>
-    <AssemblyOriginatorKeyFile />
+    <DelaySigning>False</DelaySigning>
+    <AssemblyOriginatorKeyFile>C:\Users\Nathan\Source\Repos\HackaSCOM Perspective Monitoring\HackaSCOM.Perspective.Monitoring\HackaSCOM_SimpleKey.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <DebugSymbols>false</DebugSymbols>
     <OutputPath>bin\Release\</OutputPath>
-    <DelaySigning>false</DelaySigning>
-    <Company>MyCompany</Company>
+    <DelaySigning>False</DelaySigning>
+    <Company>HACK A SCOM</Company>
     <Copyright>Copyright (c) MyCompany. All rights reserved.</Copyright>
     <DelaySign>false</DelaySign>
-    <AssemblyOriginatorKeyFile />
+    <AssemblyOriginatorKeyFile>C:\Users\Nathan\Source\Repos\HackaSCOM Perspective Monitoring\HackaSCOM.Perspective.Monitoring\HackaSCOM_SimpleKey.snk</AssemblyOriginatorKeyFile>
+    <GenerateSealed>True</GenerateSealed>
   </PropertyGroup>
   <ItemGroup>
+    <ManagementPackReference Include="Microsoft.SystemCenter.DataWarehouse.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\Microsoft.SystemCenter.DataWarehouse.Library.mp</HintPath>
+      <Alias>MSDL</Alias>
+      <MinVersion>7.1.10226.0</MinVersion>
+    </ManagementPackReference>
     <ManagementPackReference Include="Microsoft.SystemCenter.Library">
       <Alias>SC</Alias>
       <PackageToBundle>false</PackageToBundle>
     </ManagementPackReference>
-    <ManagementPackReference Include="System.Library">
-      <Alias>System</Alias>
+    <ManagementPackReference Include="Microsoft.Windows.Library">
+      <Alias>Windows</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.AdminItem.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.AdminItem.Library.mp</HintPath>
+      <Alias>SAL</Alias>
+      <MinVersion>7.5.8501.0</MinVersion>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Health.Library">
+      <Alias>Health</Alias>
       <PackageToBundle>false</PackageToBundle>
     </ManagementPackReference>
+    <ManagementPackReference Include="System.Library">
+      <Alias>System</Alias>
+      <PackageToBundle>False</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="Microsoft.SystemCenter.Visualization.Library">
+      <Alias>Visualization</Alias>
+      <PackageToBundle>false</PackageToBundle>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Performance.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Performance.Library.mp</HintPath>
+      <Alias>Perf</Alias>
+      <MinVersion>7.0.8433.0</MinVersion>
+    </ManagementPackReference>
+    <ManagementPackReference Include="System.Software.Library">
+      <HintPath>C:\Program Files (x86)\System Center Visual Studio Authoring Extensions\References\OM2012R2\System.Software.Library.mp</HintPath>
+      <Alias>SSL</Alias>
+      <MinVersion>7.5.8501.0</MinVersion>
+    </ManagementPackReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\ApiSimplePerspective.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Classes\PerspectiveWatcher.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ManagementPack.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\DailySnapshotDiscovery.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\GetRestValueDataSource.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\IsCriticalConditionDetection.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\IsHealthyConditionDetection.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Modules\IsWarningConditionDetection.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Monitoring\ApiConnectionHealthyUnitMonitorType.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Monitoring\ApiValueHealthyUnitMonitorType.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Monitoring\MonitorTemplates.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>Monitoring\MonitorTemplates.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="Monitoring\RuleTemplate.mptg.mpx">
+      <SubType>Code</SubType>
+      <DependentUpon>Monitoring\RuleTemplate.mptg</DependentUpon>
+    </Compile>
+    <Compile Include="Relationships\PerspectiveWatcherHostsApiPerspective.mpx">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Modules" />
+    <Folder Include="Classes" />
+    <Folder Include="Monitoring" />
+    <Folder Include="Relationships" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Modules\GetRestReading.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="HackaSCOM_SimpleKey.snk">
+      <SubType>Content</SubType>
+    </Content>
+    <Content Include="Monitoring\MonitorTemplates.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
+    <Content Include="Monitoring\RuleTemplate.mptg">
+      <SubType>Content</SubType>
+      <Generator>FragmentGenerator</Generator>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\VSAC\Microsoft.SystemCenter.OperationsManager.targets" />
 </Project>

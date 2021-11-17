@@ -1,0 +1,1029 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Templates>
+    <Template ID="HackaSCOM.Perspective.Authoring.SQLPerspective.Template">
+      <Configuration>
+        <IncludeSchemaTypes>
+          <SchemaType>SC!Microsoft.SystemCenter.GroupPopulationSchema</SchemaType>
+        </IncludeSchemaTypes>
+        <xsd:element name="TypeId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="Name" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="Description" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="LocaleId" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="ConnectionString" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="PollIntervalInSeconds" type="xsd:unsignedInt" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="IncludeList" type="MonitoringObjectIdListType" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="WatcherComputersList" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="UniquenessKey" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="Query" type="xsd:string" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="QueryTimeout" type="xsd:integer" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="HasQuery" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="EnableConnectionTimeMonitor" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="EnableQueryExecutionTimeMonitor" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="EnableQueryFetchTimeMonitor" type="xsd:boolean" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="ConnectionTimeWarningThreshold" type="xsd:unsignedInt" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="ConnectionTimeErrorThreshold" type="xsd:unsignedInt" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="QueryExecutionTimeWarningThreshold" type="xsd:unsignedInt" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="QueryExecutionTimeErrorThreshold" type="xsd:unsignedInt" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="QueryFetchTimeWarningThreshold" type="xsd:unsignedInt" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="QueryFetchTimeErrorThreshold" type="xsd:string" minOccurs="0" maxOccurs="1" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+        <xsd:element name="Operator" type="xsd:string" />
+        <xsd:element name="WarningThreshold" type="xsd:integer" />
+        <xsd:element name="CriticalThreshold" type="xsd:integer" />
+      </Configuration>
+      <References>
+        <Reference ID="HackaSCOMMonitoring" />
+        <Reference ID="System" />
+        <Reference ID="SC" />
+        <Reference ID="SCDW" />
+        <Reference ID="Windows" />
+        <Reference ID="Self" />
+        <Reference ID="MSSL" />
+        <Reference ID="Performance" />
+        <Reference ID="Health" />
+      </References>
+      <Implementation>
+        <TypeDefinitions>
+          <EntityTypes>
+            <ClassTypes>
+              <ClassType ID="$TemplateConfig/TypeId$" Base="$Reference/MSSL$Microsoft.SystemCenter.SyntheticTransactions.OleDbCheckPerspective" Abstract="false" Accessibility="Public" Hosted="true" />
+              <ClassType ID="$TemplateConfig/TypeId$Group" Base="$Reference/MSSL$Microsoft.SystemCenter.SyntheticTransactions.OleDbCheckPerspectiveGroup" Abstract="false" Accessibility="Public" Singleton="true" Hosted="false" />
+              <ClassType ID="$TemplateConfig/TypeId$WatcherComputersGroup" Abstract="false" Accessibility="Public" Base="$Reference/SC$Microsoft.SystemCenter.ComputerGroup" Hosted="false" Singleton="true" />
+            </ClassTypes>
+            <RelationshipTypes>
+              <RelationshipType ID="$TemplateConfig/TypeId$Group.Contains.$TemplateConfig/TypeId$" Accessibility="Public" Base="$Reference/System$System.Containment">
+                <Source>$TemplateConfig/TypeId$Group</Source>
+                <Target>$TemplateConfig/TypeId$</Target>
+              </RelationshipType>
+            </RelationshipTypes>
+          </EntityTypes>
+          <SecureReferences>
+            <SecureReference ID="$TemplateConfig/TypeId$.PrivilegedMonitoringAccount" Accessibility="Public" Context="$Reference/System$System.Entity" />
+            <SecureReference ID="$TemplateConfig/TypeId$.SimpleAuthenticationAccount" Accessibility="Public" Context="$Reference/System$System.Entity" />
+          </SecureReferences>
+          <ModuleTypes>
+            <DataSourceModuleType ID="$TemplateConfig/TypeId$.OleDbDataSource" Accessibility="Public" RunAs="$TemplateConfig/TypeId$.PrivilegedMonitoringAccount">
+              <Configuration />
+              <ModuleImplementation>
+                <Composite>
+                  <MemberModules>
+                    <DataSource TypeID="$Reference/System$System.Scheduler" ID="Scheduler">
+                      <Scheduler>
+                        <SimpleReccuringSchedule>
+                          <Interval Unit="Seconds">$TemplateConfig/PollIntervalInSeconds$</Interval>
+                        </SimpleReccuringSchedule>
+                        <ExcludeDates />
+                      </Scheduler>
+                    </DataSource>
+                    <ProbeAction TypeID="$Reference/System$System.OleDbProbe" ID="Probe">
+                      <ConnectionString>$TemplateConfig/ConnectionString$</ConnectionString>
+                      <Query>$TemplateConfig/Query$</Query>
+                      <GetValue>true</GetValue>
+                      <OneRowPerItem>false</OneRowPerItem>
+                      <QueryTimeout>$TemplateConfig/QueryTimeout$</QueryTimeout>
+                      <GetFetchTime>true</GetFetchTime>
+                    </ProbeAction>
+                  </MemberModules>
+                  <Composition>
+                    <Node ID="Probe">
+                      <Node ID="Scheduler" />
+                    </Node>
+                  </Composition>
+                </Composite>
+              </ModuleImplementation>
+              <OutputType>$Reference/System$System.OleDbData</OutputType>
+            </DataSourceModuleType>
+          </ModuleTypes>
+          <MonitorTypes>
+            <UnitMonitorType ID="$TemplateConfig/TypeId$.NoConnection" Accessibility="Public">
+              <MonitorTypeStates>
+                <MonitorTypeState ID="ConnectionFailure" />
+                <MonitorTypeState ID="NoConnectionFailure" />
+              </MonitorTypeStates>
+              <Configuration />
+              <MonitorImplementation>
+                <MemberModules>
+                  <DataSource TypeID="$TemplateConfig/TypeId$.OleDbDataSource" ID="DS" />
+                  <ConditionDetection TypeID="$Reference/System$System.ExpressionFilter" ID="CDFailed">
+                    <Expression>
+                      <SimpleExpression>
+                        <ValueExpression>
+                          <XPathQuery Type="Integer">HRResult</XPathQuery>
+                        </ValueExpression>
+                        <Operator>Less</Operator>
+                        <ValueExpression>
+                          <Value Type="Integer">0</Value>
+                        </ValueExpression>
+                      </SimpleExpression>
+                    </Expression>
+                  </ConditionDetection>
+                  <ConditionDetection TypeID="$Reference/System$System.ExpressionFilter" ID="CDPassed">
+                    <Expression>
+                      <SimpleExpression>
+                        <ValueExpression>
+                          <XPathQuery Type="Integer">HRResult</XPathQuery>
+                        </ValueExpression>
+                        <Operator>GreaterEqual</Operator>
+                        <ValueExpression>
+                          <Value Type="Integer">0</Value>
+                        </ValueExpression>
+                      </SimpleExpression>
+                    </Expression>
+                  </ConditionDetection>
+                </MemberModules>
+                <RegularDetections>
+                  <RegularDetection MonitorTypeStateID="ConnectionFailure">
+                    <Node ID="CDFailed">
+                      <Node ID="DS" />
+                    </Node>
+                  </RegularDetection>
+                  <RegularDetection MonitorTypeStateID="NoConnectionFailure">
+                    <Node ID="CDPassed">
+                      <Node ID="DS" />
+                    </Node>
+                  </RegularDetection>
+                </RegularDetections>
+              </MonitorImplementation>
+            </UnitMonitorType>
+            <UnitMonitorType ID="$TemplateConfig/TypeId$.OleDbPerformanceCounter" Accessibility="Public">
+              <MonitorTypeStates>
+                <MonitorTypeState ID="UnderThreshold1" />
+                <MonitorTypeState ID="OverThreshold1UnderThreshold2" />
+                <MonitorTypeState ID="OverThreshold2" />
+              </MonitorTypeStates>
+              <Configuration>
+                <xsd:element name="CounterName" type="xsd:string" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+                <xsd:element name="Threshold1" type="xsd:unsignedInt" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+                <xsd:element name="Threshold2" type="xsd:unsignedInt" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+              </Configuration>
+              <OverrideableParameters>
+                <OverrideableParameter ID="Threshold1" ParameterType="int" Selector="$Config/Threshold1$" />
+                <OverrideableParameter ID="Threshold2" ParameterType="int" Selector="$Config/Threshold2$" />
+              </OverrideableParameters>
+              <MonitorImplementation>
+                <MemberModules>
+                  <DataSource TypeID="$TemplateConfig/TypeId$.OleDbDataSource" ID="DS" />
+                  <ConditionDetection TypeID="$Reference/System$System.ExpressionFilter" ID="CDUnderThreshold1">
+                    <Expression>
+                      <SimpleExpression>
+                        <ValueExpression>
+                          <XPathQuery Type="UnsignedInteger">$Config/CounterName$</XPathQuery>
+                        </ValueExpression>
+                        <Operator>Less</Operator>
+                        <ValueExpression>
+                          <Value Type="UnsignedInteger">$Config/Threshold1$</Value>
+                        </ValueExpression>
+                      </SimpleExpression>
+                    </Expression>
+                  </ConditionDetection>
+                  <ConditionDetection TypeID="$Reference/System$System.ExpressionFilter" ID="CDOverThreshold1UnderThreshold2">
+                    <Expression>
+                      <And>
+                        <Expression>
+                          <SimpleExpression>
+                            <ValueExpression>
+                              <XPathQuery Type="UnsignedInteger">$Config/CounterName$</XPathQuery>
+                            </ValueExpression>
+                            <Operator>GreaterEqual</Operator>
+                            <ValueExpression>
+                              <Value Type="UnsignedInteger">$Config/Threshold1$</Value>
+                            </ValueExpression>
+                          </SimpleExpression>
+                        </Expression>
+                        <Expression>
+                          <SimpleExpression>
+                            <ValueExpression>
+                              <XPathQuery Type="UnsignedInteger">$Config/CounterName$</XPathQuery>
+                            </ValueExpression>
+                            <Operator>LessEqual</Operator>
+                            <ValueExpression>
+                              <Value Type="UnsignedInteger">$Config/Threshold2$</Value>
+                            </ValueExpression>
+                          </SimpleExpression>
+                        </Expression>
+                      </And>
+                    </Expression>
+                  </ConditionDetection>
+                  <ConditionDetection TypeID="$Reference/System$System.ExpressionFilter" ID="CDOverThreshold2">
+                    <Expression>
+                      <SimpleExpression>
+                        <ValueExpression>
+                          <XPathQuery Type="UnsignedInteger">$Config/CounterName$</XPathQuery>
+                        </ValueExpression>
+                        <Operator>Greater</Operator>
+                        <ValueExpression>
+                          <Value Type="UnsignedInteger">$Config/Threshold2$</Value>
+                        </ValueExpression>
+                      </SimpleExpression>
+                    </Expression>
+                  </ConditionDetection>
+                </MemberModules>
+                <RegularDetections>
+                  <RegularDetection MonitorTypeStateID="UnderThreshold1">
+                    <Node ID="CDUnderThreshold1">
+                      <Node ID="DS" />
+                    </Node>
+                  </RegularDetection>
+                  <RegularDetection MonitorTypeStateID="OverThreshold1UnderThreshold2">
+                    <Node ID="CDOverThreshold1UnderThreshold2">
+                      <Node ID="DS" />
+                    </Node>
+                  </RegularDetection>
+                  <RegularDetection MonitorTypeStateID="OverThreshold2">
+                    <Node ID="CDOverThreshold2">
+                      <Node ID="DS" />
+                    </Node>
+                  </RegularDetection>
+                </RegularDetections>
+              </MonitorImplementation>
+            </UnitMonitorType>
+            <UnitMonitorType ID="$TemplateConfig/TypeId$.OleDbValueStatus" Accessibility="Public">
+              <MonitorTypeStates>
+                <MonitorTypeState ID="Healthy"/>
+                <MonitorTypeState ID="Warning"/>
+                <MonitorTypeState ID="Critical"/>
+              </MonitorTypeStates>
+              <Configuration>
+                <IncludeSchemaTypes>
+                  <SchemaType>$Reference/System$System.ExpressionEvaluatorSchema</SchemaType>
+                </IncludeSchemaTypes>
+                <xsd:element name="WarningThreshold" type="xsd:int"/>
+                <xsd:element name="CriticalThreshold" type="xsd:int"/>
+                <xsd:element name="Operator" type="string" default="Equal"/>
+              </Configuration>
+              <MonitorImplementation>
+                <MemberModules>
+                  <DataSource TypeID="$TemplateConfig/TypeId$.OleDbDataSource" ID="DS" />
+                  <ConditionDetection ID="HealthyCD" TypeID="HackaSCOMMonitoring!HackaSCOM.Perspective.Monitoring.Module.IsHealthyConditionDetection">
+                    <WarningThreshold>$Config/WarningThreshold$</WarningThreshold>
+                    <CriticalThreshold>$Config/CriticalThreshold$</CriticalThreshold>
+                    <Operator>Greater</Operator>
+                  </ConditionDetection>
+                  <ConditionDetection ID="WarningCD" TypeID="HackaSCOMMonitoring!HackaSCOM.Perspective.Monitoring.Module.IsWarningConditionDetection">
+                    <WarningThreshold>$Config/WarningThreshold$</WarningThreshold>
+                    <CriticalThreshold>$Config/CriticalThreshold$</CriticalThreshold>
+                    <Operator>Greater</Operator>
+                  </ConditionDetection>
+                  <ConditionDetection ID="CriticalCD" TypeID="HackaSCOMMonitoring!HackaSCOM.Perspective.Monitoring.Module.IsCriticalConditionDetection">
+                    <WarningThreshold>$Config/WarningThreshold$</WarningThreshold>
+                    <CriticalThreshold>$Config/CriticalThreshold$</CriticalThreshold>
+                    <Operator>Greater</Operator>
+                  </ConditionDetection>
+                </MemberModules>
+                <RegularDetections>
+                  <RegularDetection MonitorTypeStateID="Healthy">
+                    <Node ID="HealthyCD">
+                      <Node ID="DS"/>
+                    </Node>
+                  </RegularDetection>
+                  <RegularDetection MonitorTypeStateID="Warning">
+                    <Node ID="WarningCD">
+                      <Node ID="DS"/>
+                    </Node>
+                  </RegularDetection>
+                  <RegularDetection MonitorTypeStateID="Critical">
+                    <Node ID="CriticalCD">
+                      <Node ID="DS"/>
+                    </Node>
+                  </RegularDetection>
+                </RegularDetections>
+              </MonitorImplementation>
+            </UnitMonitorType>
+          </MonitorTypes>
+        </TypeDefinitions>
+        <Monitoring>
+          <Discoveries>
+            <Discovery ID="$TemplateConfig/TypeId$.Discovery.Rule" Enabled="false" Target="$Reference/Windows$Microsoft.Windows.Computer">
+              <Category>Discovery</Category>
+              <DiscoveryTypes>
+                <DiscoveryClass TypeID="$TemplateConfig/TypeId$" />
+                <DiscoveryRelationship TypeID="$Reference/MSSL$Microsoft.SystemCenter.SyntheticTransactions.ComputerHostsOleDbCheckPerspective" />
+              </DiscoveryTypes>
+              <DataSource ID="PerspectiveDiscoveryDS" TypeID="$Reference/MSSL$Microsoft.SystemCenter.SyntheticTransactions.PerspectiveDiscoveryDataSource">
+                <ClassId>$MPElement[Name="$TemplateConfig/TypeId$"]$</ClassId>
+                <DisplayName>$TemplateConfig/Name$</DisplayName>
+                <WatcherComputersList>$TemplateConfig/WatcherComputersList$</WatcherComputersList>
+                <UniquenessKey>$TemplateConfig/UniquenessKey$</UniquenessKey>
+              </DataSource>
+            </Discovery>
+            <Discovery ID="$TemplateConfig/TypeId$Group.Discovery.Rule" Enabled="true" Target="$TemplateConfig/TypeId$Group">
+              <Category>Discovery</Category>
+              <DiscoveryTypes>
+                <DiscoveryClass TypeID="$TemplateConfig/TypeId$Group" />
+              </DiscoveryTypes>
+              <DataSource ID="GroupDiscoveryDS" TypeID="$Reference/SC$Microsoft.SystemCenter.GroupPopulator">
+                <RuleId>$MPElement$</RuleId>
+                <GroupInstanceId>$Target/Id$</GroupInstanceId>
+                <MembershipRules>
+                  <MembershipRule>
+                    <MonitoringClass>$MPElement[Name="$TemplateConfig/TypeId$"]$</MonitoringClass>
+                    <RelationshipClass>$MPElement[Name="$TemplateConfig/TypeId$Group.Contains.$TemplateConfig/TypeId$"]$</RelationshipClass>
+                  </MembershipRule>
+                </MembershipRules>
+              </DataSource>
+            </Discovery>
+            <Discovery ID="$TemplateConfig/TypeId$WatcherComputersGroup.Discovery.Rule" Target="$TemplateConfig/TypeId$WatcherComputersGroup" Enabled="true">
+              <Category>Discovery</Category>
+              <DiscoveryTypes>
+                <DiscoveryClass TypeID="$TemplateConfig/TypeId$WatcherComputersGroup" />
+              </DiscoveryTypes>
+              <DataSource ID="GroupPopulationDataSource" TypeID="$Reference/SC$Microsoft.SystemCenter.GroupPopulator">
+                <RuleId>$MPElement$</RuleId>
+                <GroupInstanceId>$Target/Id$</GroupInstanceId>
+                <MembershipRules>
+                  <MembershipRule>
+                    <MonitoringClass>$MPElement[Name="$Reference/Windows$Microsoft.Windows.Computer"]$</MonitoringClass>
+                    <RelationshipClass>$MPElement[Name="$Reference/SC$Microsoft.SystemCenter.ComputerGroupContainsComputer"]$</RelationshipClass>
+                    <IncludeList>$TemplateConfig/IncludeList$</IncludeList>
+                  </MembershipRule>
+                  <MembershipRule>
+                    <MonitoringClass>$MPElement[Name="$Reference/Windows$Microsoft.Windows.Computer"]$</MonitoringClass>
+                    <RelationshipClass>$MPElement[Name="$Reference/SC$Microsoft.SystemCenter.ComputerGroupContainsComputer"]$</RelationshipClass>
+                    <Expression>
+                      <Contains maxDepth="1">
+                        <MonitoringClass>$MPElement[Name="$TemplateConfig/TypeId$"]$</MonitoringClass>
+                      </Contains>
+                    </Expression>
+                  </MembershipRule>
+                </MembershipRules>
+              </DataSource>
+            </Discovery>
+          </Discoveries>
+          <Rules>
+            <Rule ID="$TemplateConfig/TypeId$.InitTime" Target="$TemplateConfig/TypeId$" Enabled="true">
+              <Category>PerformanceCollection</Category>
+              <DataSources>
+                <DataSource TypeID="$TemplateConfig/TypeId$.OleDbDataSource" ID="DS" />
+              </DataSources>
+              <ConditionDetection TypeID="$Reference/Performance$System.Performance.DataGenericMapper" ID="PerfMapper">
+                <ObjectName>Ole Db Check</ObjectName>
+                <CounterName>Connection Time</CounterName>
+                <InstanceName>$TemplateConfig/Name$</InstanceName>
+                <Value>$Data/InitializationTime$</Value>
+              </ConditionDetection>
+              <WriteActions>
+                <WriteAction ID="PerfWriteAction" TypeID="$Reference/SC$Microsoft.SystemCenter.CollectPerformanceData" />
+                <WriteAction ID="PerfWriteToDWAction" TypeID="$Reference/SCDW$Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+              </WriteActions>
+            </Rule>
+            <Rule ID="$TemplateConfig/TypeId$.QueryExecutionTime" Target="$TemplateConfig/TypeId$" Enabled="$TemplateConfig/HasQuery$">
+              <Category>PerformanceCollection</Category>
+              <DataSources>
+                <DataSource TypeID="$TemplateConfig/TypeId$.OleDbDataSource" ID="DS" />
+              </DataSources>
+              <ConditionDetection TypeID="$Reference/Performance$System.Performance.DataGenericMapper" ID="PerfMapper">
+                <ObjectName>Ole Db Check</ObjectName>
+                <CounterName>Execution Time</CounterName>
+                <InstanceName>$TemplateConfig/Name$</InstanceName>
+                <Value>$Data/ExecutionTime$</Value>
+              </ConditionDetection>
+              <WriteActions>
+                <WriteAction ID="PerfWriteAction" TypeID="$Reference/SC$Microsoft.SystemCenter.CollectPerformanceData" />
+                <WriteAction ID="PerfWriteToDWAction" TypeID="$Reference/SCDW$Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+              </WriteActions>
+            </Rule>
+            <Rule ID="$TemplateConfig/TypeId$.QueryFetchTime" Target="$TemplateConfig/TypeId$" Enabled="$TemplateConfig/HasQuery$">
+              <Category>PerformanceCollection</Category>
+              <DataSources>
+                <DataSource TypeID="$TemplateConfig/TypeId$.OleDbDataSource" ID="DS" />
+              </DataSources>
+              <ConditionDetection TypeID="$Reference/Performance$System.Performance.DataGenericMapper" ID="PerfMapper">
+                <ObjectName>Ole Db Check</ObjectName>
+                <CounterName>Fetch Time</CounterName>
+                <InstanceName>$TemplateConfig/Name$</InstanceName>
+                <Value>$Data/FetchTime$</Value>
+              </ConditionDetection>
+              <WriteActions>
+                <WriteAction ID="PerfWriteAction" TypeID="$Reference/SC$Microsoft.SystemCenter.CollectPerformanceData" />
+                <WriteAction ID="PerfWriteToDWAction" TypeID="$Reference/SCDW$Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+              </WriteActions>
+            </Rule>
+            <Rule ID="$TemplateConfig/TypeId$.QueryValue" Target="$TemplateConfig/TypeId$" Enabled="true">
+              <Category>PerformanceCollection</Category>
+              <DataSources>
+                <DataSource TypeID="$TemplateConfig/TypeId$.OleDbDataSource" ID="DS" />
+              </DataSources>
+              <ConditionDetection TypeID="$Reference/Performance$System.Performance.DataGenericMapper" ID="PerfMapper">
+                <ObjectName>Ole Db Check</ObjectName>
+                <CounterName>Fetched Value</CounterName>
+                <InstanceName>$TemplateConfig/Name$</InstanceName>
+                <Value>$Data/Columns[1]/Column[1]$</Value>
+              </ConditionDetection>
+              <WriteActions>
+                <WriteAction ID="PerfWriteAction" TypeID="$Reference/SC$Microsoft.SystemCenter.CollectPerformanceData" />
+                <WriteAction ID="PerfWriteToDWAction" TypeID="$Reference/SCDW$Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData" />
+              </WriteActions>
+            </Rule>
+          </Rules>
+          <Monitors>
+            <UnitMonitor ID="$TemplateConfig/TypeId$.NoConnectionMonitor" TypeID="$TemplateConfig/TypeId$.NoConnection" Target="$TemplateConfig/TypeId$" ParentMonitorID="$Reference/Health$System.Health.AvailabilityState" Enabled="true" Accessibility="Public">
+              <Category>AvailabilityHealth</Category>
+              <AlertSettings AlertMessage="$TemplateConfig/TypeId$.GroupHealth.AlertMessage">
+                <AlertOnState>Error</AlertOnState>
+                <AutoResolve>true</AutoResolve>
+                <AlertPriority>Normal</AlertPriority>
+                <AlertParameters>
+                  <AlertParameter1>$Data/Context/ResultCode$</AlertParameter1>
+                </AlertParameters>
+              </AlertSettings>
+              <OperationalStates>
+                <OperationalState ID="OK" MonitorTypeStateID="NoConnectionFailure" HealthState="Success" />
+                <OperationalState ID="Error" MonitorTypeStateID="ConnectionFailure" HealthState="Error" />
+              </OperationalStates>
+              <Configuration />
+            </UnitMonitor>
+            <UnitMonitor ID="$TemplateConfig/TypeId$.FetchValueStatusMonitor" TypeID="$TemplateConfig/TypeId$.OleDbValueStatus" Target="$TemplateConfig/TypeId$" ParentMonitorID="$Reference/Health$System.Health.AvailabilityState" Enabled="true" Accessibility="Public">
+              <Category>AvailabilityHealth</Category>
+              <AlertSettings AlertMessage="$TemplateConfig/TypeId$.GroupHealth.AlertMessage">
+                <AlertOnState>Error</AlertOnState>
+                <AutoResolve>true</AutoResolve>
+                <AlertPriority>Normal</AlertPriority>
+                <AlertParameters>
+                  <AlertParameter1>$Data/Context/ResultCode$</AlertParameter1>
+                </AlertParameters>
+              </AlertSettings>
+              <OperationalStates>
+                <OperationalState ID="Healthy" MonitorTypeStateID="Healthy" HealthState="Success" />
+                <OperationalState ID="Warning" MonitorTypeStateID="Warning" HealthState="Warning" />
+                <OperationalState ID="Critical" MonitorTypeStateID="Critical" HealthState="Error" />
+              </OperationalStates>
+              <Configuration>
+                <WarningThreshold>$TemplateConfig/WarningThreshold$</WarningThreshold>
+                <CriticalThreshold>$TemplateConfig/CriticalThreshold$</CriticalThreshold>
+                <Operator>$TemplateConfig/Operator$</Operator>
+              </Configuration>
+            </UnitMonitor>
+            <UnitMonitor ID="$TemplateConfig/TypeId$.ConnectionTimeMonitor" TypeID="$TemplateConfig/TypeId$.OleDbPerformanceCounter" Target="$TemplateConfig/TypeId$" ParentMonitorID="$Reference/Health$System.Health.PerformanceState" Enabled="$TemplateConfig/EnableConnectionTimeMonitor$" Accessibility="Public">
+              <Category>PerformanceHealth</Category>
+              <AlertSettings AlertMessage="$TemplateConfig/TypeId$.ConnectionTimeMonitor.AlertMessage">
+                <AlertOnState>Error</AlertOnState>
+                <AutoResolve>true</AutoResolve>
+                <AlertPriority>Normal</AlertPriority>
+                <AlertParameters>
+                  <AlertParameter1>$Data/Context/InitializationTime$</AlertParameter1>
+                </AlertParameters>
+              </AlertSettings>
+              <OperationalStates>
+                <OperationalState ID="OK" MonitorTypeStateID="UnderThreshold1" HealthState="Success" />
+                <OperationalState ID="Warning" MonitorTypeStateID="OverThreshold1UnderThreshold2" HealthState="Warning" />
+                <OperationalState ID="Error" MonitorTypeStateID="OverThreshold2" HealthState="Error" />
+              </OperationalStates>
+              <Configuration>
+                <CounterName>InitializationTime</CounterName>
+                <Threshold1>$TemplateConfig/ConnectionTimeWarningThreshold$</Threshold1>
+                <Threshold2>$TemplateConfig/ConnectionTimeErrorThreshold$</Threshold2>
+              </Configuration>
+            </UnitMonitor>
+            <UnitMonitor ID="$TemplateConfig/TypeId$.QueryExecutionTimeMonitor" TypeID="$TemplateConfig/TypeId$.OleDbPerformanceCounter" Target="$TemplateConfig/TypeId$" ParentMonitorID="$Reference/Health$System.Health.PerformanceState" Enabled="$TemplateConfig/EnableQueryExecutionTimeMonitor$" Accessibility="Public">
+              <Category>PerformanceHealth</Category>
+              <AlertSettings AlertMessage="$TemplateConfig/TypeId$.QueryExecutionTimeMonitor.AlertMessage">
+                <AlertOnState>Error</AlertOnState>
+                <AutoResolve>true</AutoResolve>
+                <AlertPriority>Normal</AlertPriority>
+                <AlertParameters>
+                  <AlertParameter1>$Data/Context/ExecutionTime$</AlertParameter1>
+                </AlertParameters>
+              </AlertSettings>
+              <OperationalStates>
+                <OperationalState ID="OK" MonitorTypeStateID="UnderThreshold1" HealthState="Success" />
+                <OperationalState ID="Warning" MonitorTypeStateID="OverThreshold1UnderThreshold2" HealthState="Warning" />
+                <OperationalState ID="Error" MonitorTypeStateID="OverThreshold2" HealthState="Error" />
+              </OperationalStates>
+              <Configuration>
+                <CounterName>ExecutionTime</CounterName>
+                <Threshold1>$TemplateConfig/QueryExecutionTimeWarningThreshold$</Threshold1>
+                <Threshold2>$TemplateConfig/QueryExecutionTimeErrorThreshold$</Threshold2>
+              </Configuration>
+            </UnitMonitor>
+            <UnitMonitor ID="$TemplateConfig/TypeId$.QueryFetchTimeMonitor" TypeID="$TemplateConfig/TypeId$.OleDbPerformanceCounter" Target="$TemplateConfig/TypeId$" ParentMonitorID="$Reference/Health$System.Health.PerformanceState" Enabled="$TemplateConfig/EnableQueryFetchTimeMonitor$" Accessibility="Public">
+              <Category>PerformanceHealth</Category>
+              <AlertSettings AlertMessage="$TemplateConfig/TypeId$.QueryFetchTimeMonitor.AlertMessage">
+                <AlertOnState>Error</AlertOnState>
+                <AutoResolve>true</AutoResolve>
+                <AlertPriority>Normal</AlertPriority>
+                <AlertParameters>
+                  <AlertParameter1>$Data/Context/FetchTime$</AlertParameter1>
+                </AlertParameters>
+              </AlertSettings>
+              <OperationalStates>
+                <OperationalState ID="OK" MonitorTypeStateID="UnderThreshold1" HealthState="Success" />
+                <OperationalState ID="Warning" MonitorTypeStateID="OverThreshold1UnderThreshold2" HealthState="Warning" />
+                <OperationalState ID="Error" MonitorTypeStateID="OverThreshold2" HealthState="Error" />
+              </OperationalStates>
+              <Configuration>
+                <CounterName>FetchTime</CounterName>
+                <Threshold1>$TemplateConfig/QueryFetchTimeWarningThreshold$</Threshold1>
+                <Threshold2>$TemplateConfig/QueryFetchTimeErrorThreshold$</Threshold2>
+              </Configuration>
+            </UnitMonitor>
+            <DependencyMonitor ID="$TemplateConfig/TypeId$.GroupHealth" Accessibility="Public" Target="$TemplateConfig/TypeId$Group" Enabled="true" ParentMonitorID="$Reference/Health$System.Health.AvailabilityState" RelationshipType="$TemplateConfig/TypeId$Group.Contains.$TemplateConfig/TypeId$" MemberMonitor="$Reference/Health$System.Health.AvailabilityState">
+              <Category>AvailabilityHealth</Category>
+              <Algorithm>WorstOf</Algorithm>
+              <MemberUnAvailable>Error</MemberUnAvailable>
+            </DependencyMonitor>
+            <DependencyMonitor ID="$TemplateConfig/TypeId$.GroupPerformanceHealth" Accessibility="Public" Target="$TemplateConfig/TypeId$Group" Enabled="true" ParentMonitorID="$Reference/Health$System.Health.PerformanceState" RelationshipType="$TemplateConfig/TypeId$Group.Contains.$TemplateConfig/TypeId$" MemberMonitor="$Reference/Health$System.Health.PerformanceState">
+              <Category>PerformanceHealth</Category>
+              <Algorithm>WorstOf</Algorithm>
+              <MemberUnAvailable>Error</MemberUnAvailable>
+            </DependencyMonitor>
+          </Monitors>
+          <Overrides>
+            <DiscoveryPropertyOverride ID="$TemplateConfig/TypeId$.Discovery.Rule.Override" Discovery="$TemplateConfig/TypeId$.Discovery.Rule" Context="$TemplateConfig/TypeId$WatcherComputersGroup" Enforced="false" Property="Enabled">
+              <Value>true</Value>
+            </DiscoveryPropertyOverride>
+          </Overrides>
+        </Monitoring>
+        <Presentation>
+          <StringResources>
+            <StringResource ID="$TemplateConfig/TypeId$.GroupHealth.AlertMessage" />
+            <StringResource ID="$TemplateConfig/TypeId$.ConnectionTimeMonitor.AlertMessage" />
+            <StringResource ID="$TemplateConfig/TypeId$.QueryExecutionTimeMonitor.AlertMessage" />
+            <StringResource ID="$TemplateConfig/TypeId$.QueryFetchTimeMonitor.AlertMessage" />
+          </StringResources>
+        </Presentation>
+        <LanguagePacks>
+          <LanguagePack ID="$TemplateConfig/LocaleId$">
+            <DisplayStrings>
+              <DisplayString ElementID="$TemplateConfig/TypeId$">
+                <Name>$TemplateConfig/Name$</Name>
+                <Description>$TemplateConfig/Description$</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.PrivilegedMonitoringAccount">
+                <Name>$TemplateConfig/Name$ OLE DB Synthetic Transaction Action Profile</Name>
+                <Description>This profile is used to monitor $TemplateConfig/Name$ OLE DB Data source for Integrated security.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.SimpleAuthenticationAccount">
+                <Name>$TemplateConfig/Name$ OLE DB Simple Authentication Profile</Name>
+                <Description>If specified, this login name and password can be referenced in the connection string to connect to $TemplateConfig/Name$ for alternative authentication model.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.Discovery.Rule">
+                <Name>$TemplateConfig/Name$ Discovery</Name>
+                <Description>Discovery rule for $TemplateConfig/Name$</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$Group.Discovery.Rule">
+                <Name>$TemplateConfig/Name$ Group Discovery</Name>
+                <Description>Discovery for group of $TemplateConfig/Name$</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$WatcherComputersGroup.Discovery.Rule">
+                <Name>$TemplateConfig/Name$ Watcher Group Discovery</Name>
+                <Description>Discovery for $TemplateConfig/Name$ watcher computers</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$Group.Contains.$TemplateConfig/TypeId$">
+                <Name>Group of $TemplateConfig/Name$</Name>
+                <Description>Group of $TemplateConfig/Name$</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$WatcherComputersGroup">
+                <Name>$TemplateConfig/Name$ watcher computers group</Name>
+                <Description>Group of $TemplateConfig/Name$ watcher computers</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.NoConnectionMonitor">
+                <Name>Data Source Status Monitor</Name>
+                <Description>Monitors for the OLE DB connection and query status</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.NoConnectionMonitor" SubElementID="OK">
+                <Name>Connection and/or Query succeeded</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.NoConnectionMonitor" SubElementID="Error">
+                <Name>Connection and/or Query failed</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.GroupHealth">
+                <Name>$TemplateConfig/Name$ Group Monitor</Name>
+                <Description>Monitors the $TemplateConfig/Name$ group</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.GroupHealth.AlertMessage">
+                <Name>$TemplateConfig/Name$ OLE DB status</Name>
+                <Description>The OLE DB Database Transaction experienced an error while connecting and/or executing the query. Status code : {0}. </Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$Group">
+                <Name>$TemplateConfig/Name$ OLE DB Check Group</Name>
+                <Description>Group of $TemplateConfig/Name$</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.InitTime">
+                <Name>$TemplateConfig/Name$ OLE DB Initialization Time Performance Collection</Name>
+                <Description>Collects performance counter for the initialization time of the OLE DB data source.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.NoConnection">
+                <Name>OLE DB Connection Monitor</Name>
+                <Description>This monitor type detects if the target data source is reachable and if a connection can be established.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.NoConnection" SubElementID="ConnectionFailure">
+                <Name>Connection Failure (Error)</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.NoConnection" SubElementID="NoConnectionFailure">
+                <Name>Connection Completed (Success)</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.GroupPerformanceHealth">
+                <Name>$TemplateConfig/Name$ Group Performance Monitor</Name>
+                <Description>Rollup Monitor for the performance of all the user perspectives in the $TemplateConfig/Name$ group</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.ConnectionTimeMonitor">
+                <Name>Connection Time Monitor</Name>
+                <Description>Monitors the amount of time taken to connect to the database. It changes state based on the thresholds configured for error and warning.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.ConnectionTimeMonitor" SubElementID="OK">
+                <Name>Connection time is less than the lowest threshold</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.ConnectionTimeMonitor" SubElementID="Warning">
+                <Name>Connection time is between upper threshold and lower threshold</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.ConnectionTimeMonitor" SubElementID="Error">
+                <Name>Connection time has exceeded the upper threshold</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryExecutionTimeMonitor">
+                <Name>Execution Time Monitor</Name>
+                <Description>Monitors the amount of time taken to execute the query. It changes state based on the thresholds configured for error and warning.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryExecutionTimeMonitor" SubElementID="OK">
+                <Name>Execution time is less than the lowest threshold</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryExecutionTimeMonitor" SubElementID="Warning">
+                <Name>Execution time is between upper threshold and lower threshold</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryExecutionTimeMonitor" SubElementID="Error">
+                <Name>Execution time has exceeded the upper threshold</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryFetchTimeMonitor">
+                <Name>Fetch Time Monitor</Name>
+                <Description>Monitors the amount of time taken to fetch the results from the query. It changes state based on the thresholds configured for error and warning.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryFetchTimeMonitor" SubElementID="OK">
+                <Name>Fetch time is less than the lowest threshold</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryFetchTimeMonitor" SubElementID="Warning">
+                <Name>Fetch time is between upper threshold and lower threshold</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryFetchTimeMonitor" SubElementID="Error">
+                <Name>Fetch time has exceeded the upper threshold</Name>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryExecutionTime">
+                <Name>$TemplateConfig/Name$ OLE DB Query Execution Time Performance Collection</Name>
+                <Description>Collects performance counter for time required for executing the query on the OLE DB data source.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryFetchTime">
+                <Name>$TemplateConfig/Name$ OLE DB Query Fetch Time Performance Collection</Name>
+                <Description>Collects performance counter for time required for fetching the results of the query from the OLE DB data source.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.OleDbPerformanceCounter">
+                <Name>OLE DB Performance Monitor</Name>
+                <Description>Monitors performance of the OLE DB data source.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.OleDbPerformanceCounter" SubElementID="OverThreshold1UnderThreshold2">
+                <Name>Between Thresholds</Name>
+                <Description>State of OLE DB performance monitor when performance counter is between the two threshold values</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.OleDbPerformanceCounter" SubElementID="OverThreshold2">
+                <Name>Over Upper Threshold</Name>
+                <Description>State of OLE DB performance monitor when performance counter is higher than the upper threshold value</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.OleDbPerformanceCounter" SubElementID="Threshold1">
+                <Name>Lower Threshold</Name>
+                <Description>Lower threshold value for OLE DB performance counter</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.OleDbPerformanceCounter" SubElementID="Threshold2">
+                <Name>Upper Threshold</Name>
+                <Description>Upper threshold value for OLE DB performance counter</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.OleDbPerformanceCounter" SubElementID="UnderThreshold1">
+                <Name>Under Lower Threshold</Name>
+                <Description>State of OLE DB performance monitor when performance counter value is lower than the lower threshold value</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.ConnectionTimeMonitor.AlertMessage">
+                <Name>$TemplateConfig/Name$ Connection Time Alert</Name>
+                <Description>The connection time of $TemplateConfig/Name$ has exceeded the alerting threshold. The connection time is {0}. The lower threshold value is $TemplateConfig/ConnectionTimeWarningThreshold$. And the upper threshold value is $TemplateConfig/ConnectionTimeErrorThreshold$.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryExecutionTimeMonitor.AlertMessage">
+                <Name>$TemplateConfig/Name$ Query Execution Time Alert</Name>
+                <Description>The execution time of $TemplateConfig/Name$ has exceeded the alerting threshold. The execution time is {0}. The lower threshold value is $TemplateConfig/QueryExecutionTimeWarningThreshold$. And the upper threshold value is $TemplateConfig/QueryExecutionTimeErrorThreshold$.</Description>
+              </DisplayString>
+              <DisplayString ElementID="$TemplateConfig/TypeId$.QueryFetchTimeMonitor.AlertMessage">
+                <Name>$TemplateConfig/Name$ Query Fetch Time Alert</Name>
+                <Description>The fetch time of $TemplateConfig/Name$ has exceeded the alerting threshold. The fetch time is {0}. The lower threshold value is $TemplateConfig/QueryFetchTimeWarningThreshold$. And the upper threshold value is $TemplateConfig/QueryFetchTimeErrorThreshold$.</Description>
+              </DisplayString>
+            </DisplayStrings>
+            <KnowledgeArticles>
+              <KnowledgeArticle ElementID="$TemplateConfig/TypeId$.NoConnectionMonitor">
+                <MamlContent>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Summary</maml:title>
+                    <maml:para>Connection to the data source could not be made or the query did not succeed in executing on the data source</maml:para>
+                  </maml:section>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Causes</maml:title>
+                    <maml:para>
+                      Depending on the conditions the failures could be categorized into connection failure and query failures. Review the Alert context to inspect the status code.
+                    </maml:para>
+                    <maml:table>
+                      <maml:row>
+                        <maml:entry>
+                          <maml:para>Status code</maml:para>
+                        </maml:entry>
+                        <maml:entry>
+                          <maml:para>Failure description</maml:para>
+                        </maml:entry>
+                      </maml:row>
+                      <maml:row>
+                        <maml:entry>
+                          <maml:para>1</maml:para>
+                        </maml:entry>
+                        <maml:entry>
+                          <maml:para>Data Source could not be initialized</maml:para>
+                        </maml:entry>
+                      </maml:row>
+                      <maml:row>
+                        <maml:entry>
+                          <maml:para>2</maml:para>
+                        </maml:entry>
+                        <maml:entry>
+                          <maml:para>Session could not be opened</maml:para>
+                        </maml:entry>
+                      </maml:row>
+                      <maml:row>
+                        <maml:entry>
+                          <maml:para>3</maml:para>
+                        </maml:entry>
+                        <maml:entry>
+                          <maml:para>Execution of query failed</maml:para>
+                        </maml:entry>
+                      </maml:row>
+                      <maml:row>
+                        <maml:entry>
+                          <maml:para>4</maml:para>
+                        </maml:entry>
+                        <maml:entry>
+                          <maml:para>Fetch failed</maml:para>
+                        </maml:entry>
+                      </maml:row>
+                    </maml:table>
+                    <maml:para>
+                      If the failure description indicates "Data Source could not be initialized" or "Session could not be opened", it is a connection problem. For all others it is a query problem.
+                      Conection failures can happen due to one or more of the following reasons:
+                    </maml:para>
+                    <maml:para />
+                    <maml:list>
+                      <maml:listItem>
+                        <maml:para>The connection string is erroneous</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Network is unavailable or slow or blocked</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Target Data source is offline</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Watcher node is not configured with appropriate permissions</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Watcher node does not have the OLE DB Data provider installed</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Target Data source is unavailable</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Maximum number of connections to the data source have been exceeded</maml:para>
+                      </maml:listItem>
+                    </maml:list>
+                    <maml:para />
+                    <maml:para>
+                      If the problem is due to a query failure, one or more of the following reasons may apply:
+                    </maml:para>
+                    <maml:para />
+                    <maml:list>
+                      <maml:listItem>
+                        <maml:para>Query is incorrect and has errors</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Database machine is out of resources and taking a long time to execute the query</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Query timeout has exceeded before the response from the data source causing an abort</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>The Data source is locked and rejecting all similar queries</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>The resulting Rowset is large and causing timeouts</maml:para>
+                      </maml:listItem>
+                    </maml:list>
+                  </maml:section>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Resolutions</maml:title>
+                    <maml:para>Try the following troubleshooting steps to fix the problem</maml:para>
+                    <maml:para />
+                    <maml:list>
+                      <maml:listItem>
+                        <maml:para>Ping the target computer running the data source from the watcher node</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Ensure that the proper credentials are configured in the RunAs Profile account for this OLE DB Data source transaction</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Check that the OLE DB data provider is installed on the machine</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Verify the query by running it locally on the data source</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Check that Query timeout is not too low</maml:para>
+                      </maml:listItem>
+                    </maml:list>
+                  </maml:section>
+                </MamlContent>
+              </KnowledgeArticle>
+              <KnowledgeArticle ElementID="$TemplateConfig/TypeId$.ConnectionTimeMonitor">
+                <MamlContent>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Summary</maml:title>
+                    <maml:para>The connection initialization and opening is taking longer than the expected threshold</maml:para>
+                  </maml:section>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Causes</maml:title>
+                    <maml:para>
+                      Slow Conections can result due one or more of the following reasons:
+                    </maml:para>
+                    <maml:para />
+                    <maml:list>
+                      <maml:listItem>
+                        <maml:para>Network is slow</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>There are large number of open connections</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Data source machine is overloaded</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>The Data source process is running out of memory or CPU cycles</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Watcher node is experiencing resource overutilization</maml:para>
+                      </maml:listItem>
+                    </maml:list>
+                  </maml:section>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Resolutions</maml:title>
+                    <maml:para>Try the following troubleshooting steps to fix the problem:</maml:para>
+                    <maml:para />
+                    <maml:list>
+                      <maml:listItem>
+                        <maml:para>Check the length of time required to ping the remote machine hosting the data source</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Verify that network bandwidth is sufficient for making the database connection</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Make sure the host machine does not have resource problems</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Increase connection pool size to allow more connection, if exceeded</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Identify any resource problems on the watcher node causing performance and utilization issues</maml:para>
+                      </maml:listItem>
+                    </maml:list>
+                  </maml:section>
+                </MamlContent>
+              </KnowledgeArticle>
+              <KnowledgeArticle ElementID="$TemplateConfig/TypeId$.QueryExecutionTimeMonitor">
+                <MamlContent>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Summary</maml:title>
+                    <maml:para>Query is taking a long time to execute the specified query for the target Data Source</maml:para>
+                  </maml:section>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Causes</maml:title>
+                    <maml:para>
+                      Slow Query execution can result due one or more of the following reasons:
+                    </maml:para>
+                    <maml:para />
+                    <maml:list>
+                      <maml:listItem>
+                        <maml:para>Network is slow</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>There are large number of open connections</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Data source machine is overloaded</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>The Data source process is running out of memory or CPU cycles</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Watcher node is experiencing resource overutilization</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Query is complex</maml:para>
+                      </maml:listItem>
+                    </maml:list>
+                  </maml:section>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Resolutions</maml:title>
+                    <maml:para>Try the following troubleshooting steps to fix the problem:</maml:para>
+                    <maml:para />
+                    <maml:list>
+                      <maml:listItem>
+                        <maml:para>Check the length of time required to ping the remote machine hosting the data source</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Verify that network bandwidth is sufficient for making the database connection</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Make sure the host machine does not have resource problems</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Increase connection pool size to allow more connection, if exceeded</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Identify any resource problems on the watcher node causing performance and utilization issues</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Break up the query into several simple queries</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Use Query profiling tools for diagnosing query problems</maml:para>
+                      </maml:listItem>
+                    </maml:list>
+                  </maml:section>
+                </MamlContent>
+              </KnowledgeArticle>
+              <KnowledgeArticle ElementID="$TemplateConfig/TypeId$.QueryFetchTimeMonitor">
+                <MamlContent>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Summary</maml:title>
+                    <maml:para>Fetching the result from the specified query for the target Data Source are taking longer than expected</maml:para>
+                  </maml:section>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Causes</maml:title>
+                    <maml:para>
+                      Slow Query fetch can result due one or more of the following reasons:
+                    </maml:para>
+                    <maml:para />
+                    <maml:list>
+                      <maml:listItem>
+                        <maml:para>Network is slow</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>There are large number of open connections</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Data source machine is overloaded</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>The Data source process is running out of memory or CPU cycles</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Watcher node is experiencing resource overutilization</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Query is complex</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Results of the query are large</maml:para>
+                      </maml:listItem>
+                    </maml:list>
+                  </maml:section>
+                  <maml:section xmlns:maml="http://schemas.microsoft.com/maml/2004/10">
+                    <maml:title>Resolutions</maml:title>
+                    <maml:para>Try the following troubleshooting steps to fix the problem:</maml:para>
+                    <maml:para />
+                    <maml:list>
+                      <maml:listItem>
+                        <maml:para>Check the length of time required to ping the remote machine hosting the data source</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Verify that network bandwidth is sufficient for making the database connection</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Make sure the host machine does not have resource problems</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Increase connection pool size to allow more connection, if exceeded</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Identify any resource problems on the watcher node causing performance and utilization issues</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Break up the query into several simple queries</maml:para>
+                      </maml:listItem>
+                      <maml:listItem>
+                        <maml:para>Use Query profiling tools for diagnosing query problems</maml:para>
+                      </maml:listItem>
+                    </maml:list>
+                  </maml:section>
+                </MamlContent>
+              </KnowledgeArticle>
+            </KnowledgeArticles>
+          </LanguagePack>
+        </LanguagePacks>
+      </Implementation>
+    </Template>
+  </Templates>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="HackaSCOM.Perspective.Authoring.SQLPerspective.Template">
+          <Name>SQL Perspective Monitoring</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

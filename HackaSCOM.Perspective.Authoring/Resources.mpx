@@ -1,0 +1,10 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Categories>
+    <Category ID="Category.HackaSCOM.UI"
+              Target="Res.HackaSCOM.Perspective.UI"
+              Value="Visualization!Microsoft.SystemCenter.Visualization.WindowsAssembly" />
+  </Categories>
+  <Resources>
+    <DeployableAssembly Accessibility="Internal" FileName="HackaSCOM.Perspective.UI.dll" ID="Res.HackaSCOM.Perspective.UI" QualifiedName="HackaSCOM.Perspective.UI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=c476b2285fb3cde6"/>
+  </Resources>
+</ManagementPackFragment>

@@ -1,0 +1,86 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instance1cb8bbbf42bb4bd8ba0ce5a2d4aaa2da" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
+      <UnitMonitorConfig xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+        <MonitorType>HackaSCOM.Perspective.Monitoring.UnitMonitorType.ApiConnectionHealthyUnitMonitorType</MonitorType>
+        <MonitorConfig>&lt;IntervalSeconds&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/IntervalSeconds$&lt;/IntervalSeconds&gt;&lt;Uri&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Uri$&lt;/Uri&gt;&lt;Method&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Method$&lt;/Method&gt;&lt;Format&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Format$&lt;/Format&gt;&lt;ValuePath&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/ValuePath$&lt;/ValuePath&gt;&lt;PostBody&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/PostBody$&lt;/PostBody&gt;</MonitorConfig>
+        <MonitorOperationalStates>
+          <OperationalState>
+            <OperationalStateId>Connected</OperationalStateId>
+            <OperationalStateDisplayName>Connected</OperationalStateDisplayName>
+            <MonitorTypeStateId>Connected</MonitorTypeStateId>
+            <HealthState>Success</HealthState>
+          </OperationalState>
+          <OperationalState>
+            <OperationalStateId>Failing</OperationalStateId>
+            <OperationalStateDisplayName>Failing</OperationalStateDisplayName>
+            <MonitorTypeStateId>Failing</MonitorTypeStateId>
+            <HealthState>Error</HealthState>
+          </OperationalState>
+        </MonitorOperationalStates>
+        <ParentMonitor>Health!System.Health.AvailabilityState</ParentMonitor>
+        <Accessibility>Internal</Accessibility>
+        <Id>ProspectiveApiConnectionStatus</Id>
+        <DisplayName>Prospective Monitor Status</DisplayName>
+        <Description>Monitors API Connection Status for total failure</Description>
+        <Target>HackaSCOM.Perspective.Monitoring.ApiSimplePerspective</Target>
+        <Enabled>true</Enabled>
+        <Category>AvailabilityHealth</Category>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <AlertAutoResolve>true</AlertAutoResolve>
+        <AlertOnState>Warning</AlertOnState>
+        <AlertPriority>Normal</AlertPriority>
+        <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+        <AlertName>API Connection Failing</AlertName>
+        <AlertDescription>The API Connection isn't responding as desired.</AlertDescription>
+        <ConfirmDelivery>false</ConfirmDelivery>
+      </UnitMonitorConfig>
+    </Instance>
+    <Instance ID="Instanceea1e76bac7364b2e8105b022e8805c3b" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.UnitMonitor" Version="1.0.0.0">
+      <UnitMonitorConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <MonitorType>HackaSCOM.Perspective.Monitoring.UnitMonitorType.ApiValueHealthyUnitMonitorType</MonitorType>
+        <MonitorConfig>&lt;IntervalSeconds&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/IntervalSeconds$&lt;/IntervalSeconds&gt;&lt;Uri&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Uri$&lt;/Uri&gt;&lt;Method&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Method$&lt;/Method&gt;&lt;Format&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Format$&lt;/Format&gt;&lt;ValuePath&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/ValuePath$&lt;/ValuePath&gt;&lt;PostBody&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/PostBody$&lt;/PostBody&gt;&lt;WarningThreshold&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/WarningThreshold$&lt;/WarningThreshold&gt;&lt;CriticalThreshold&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/CriticalThreshold$&lt;/CriticalThreshold&gt;&lt;Operator&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Operator$&lt;/Operator&gt;</MonitorConfig>
+        <MonitorOperationalStates>
+          <OperationalState>
+            <OperationalStateId>Healthy</OperationalStateId>
+            <OperationalStateDisplayName>Acceptable</OperationalStateDisplayName>
+            <MonitorTypeStateId>Healthy</MonitorTypeStateId>
+            <HealthState>Success</HealthState>
+          </OperationalState>
+          <OperationalState>
+            <OperationalStateId>Warning</OperationalStateId>
+            <OperationalStateDisplayName>Caution</OperationalStateDisplayName>
+            <MonitorTypeStateId>Warning</MonitorTypeStateId>
+            <HealthState>Warning</HealthState>
+          </OperationalState>
+          <OperationalState>
+            <OperationalStateId>Critical</OperationalStateId>
+            <OperationalStateDisplayName>Unacceptable</OperationalStateDisplayName>
+            <MonitorTypeStateId>Critical</MonitorTypeStateId>
+            <HealthState>Error</HealthState>
+          </OperationalState>
+        </MonitorOperationalStates>
+        <ParentMonitor>Health!System.Health.AvailabilityState</ParentMonitor>
+        <Accessibility>Internal</Accessibility>
+        <Id>ProspectiveApiMonitorValue</Id>
+        <DisplayName>Prospective Monitor Values</DisplayName>
+        <Description>Monitors API Value Perspectives for return values</Description>
+        <Target>HackaSCOM.Perspective.Monitoring.ApiSimplePerspective</Target>
+        <Enabled>true</Enabled>
+        <Category>AvailabilityHealth</Category>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <AlertAutoResolve>true</AlertAutoResolve>
+        <AlertOnState>Warning</AlertOnState>
+        <AlertPriority>Normal</AlertPriority>
+        <AlertSeverity>MatchMonitorHealth</AlertSeverity>
+        <AlertName>API Value Unacceptable</AlertName>
+        <AlertDescription>$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/AlertMessage$
+
+The most recent value was $Data/Context/DataItem/Property[@Name='Value']$, when the value is $Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Operator$ than $Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/WarningThreshold$ a warning will be raised, with critical alerts when $Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Operator$ than $Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/CriticalThreshold$</AlertDescription>
+        <ConfirmDelivery>false</ConfirmDelivery>
+      </UnitMonitorConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>

@@ -1,0 +1,12 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PresentationTypes>
+    <UIPages>
+      <UIPage ID="HackaSCOM.Perspective.Authoring.AlertingConfigurationPage" Accessibility="Internal">
+        <Implementation>
+          <Assembly>Res.HackaSCOM.Perspective.UI</Assembly>
+          <Type>HackaSCOM.Perspective.UI.Pages.AlertingConfigPage</Type>
+        </Implementation>
+      </UIPage>
+    </UIPages>
+  </PresentationTypes>
+</ManagementPackFragment>

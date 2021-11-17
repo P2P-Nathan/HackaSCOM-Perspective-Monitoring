@@ -1,0 +1,69 @@
+﻿<ManagementPackFragment SchemaVersion="2.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <TypeDefinitions>
+    <EntityTypes>
+      <ClassTypes>
+        <ClassType ID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" Base="Windows!Microsoft.Windows.ApplicationComponent" Accessibility="Public" Abstract="false" Hosted="true" Singleton="false">
+          <Property ID="PerspectiveName" Type="string" Key="true"/>          
+          <Property ID="Description" Type="string"/>
+          <Property ID="AlertMessage" Type="string"/>
+          <Property ID="Operator" Type="richtext"/>
+          <Property ID="WarningThreshold" Type="int"/>
+          <Property ID="CriticalThreshold" Type="int"/>
+          <Property ID="IntervalSeconds" Type="int" DefaultValue="900"/>
+          <Property ID="Uri" Type="string"/>
+          <Property ID="Method" Type="string" DefaultValue="GET"/>
+          <Property ID="Format" Type="string"/>
+          <Property ID="ValuePath" Type="string"/>
+          <Property ID="PostBody" Type="string"/>
+        </ClassType>
+      </ClassTypes>
+    </EntityTypes>
+  </TypeDefinitions>
+  <LanguagePacks>
+    <LanguagePack ID="ENU" IsDefault="true">
+      <DisplayStrings>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective">
+          <Name>ApiSimplePerspective Class</Name>
+          <Description></Description>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="PerspectiveName">
+          <Name>Perspective Name</Name>
+          <Description>The name of the watching perspective</Description>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="AlertMessage">
+          <Name>Alert Message</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="CriticalThreshold">
+          <Name>Critical Threshold</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="Description">
+          <Name>Perspective Description</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="Format">
+          <Name>API Format</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="IntervalSeconds">
+          <Name>Fetch Interval</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="Method">
+          <Name>HTTP Method</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="Operator">
+          <Name>Evaluation Operator</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="PostBody">
+          <Name>Post Body</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="Uri">
+          <Name>API URI</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="ValuePath">
+          <Name>Extraction Path</Name>
+        </DisplayString>
+        <DisplayString ElementID="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective" SubElementID="WarningThreshold">
+          <Name>Warning Threshold</Name>
+        </DisplayString>
+      </DisplayStrings>
+    </LanguagePack>
+  </LanguagePacks>
+</ManagementPackFragment>

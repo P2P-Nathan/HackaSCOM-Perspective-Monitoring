@@ -1,0 +1,72 @@
+<TemplateGroup>
+  <Instances>
+    <Instance ID="Instancedef80143428b4c5ba3adcdbde9d6c55b" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.CustomRule" Version="1.0.0.0">
+      <CustomRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>CollectApiValues</Id>
+        <DisplayName>Collect API Values</DisplayName>
+        <Description>Collects the API returned values as Performance data</Description>
+        <Category>None</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>HackaSCOM.Perspective.Monitoring.ApiSimplePerspective</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <DataSources>
+          <RuleDataSourceItem>
+            <DataSourceId>DS</DataSourceId>
+            <DataSourceConfig>&lt;IntervalSeconds&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/IntervalSeconds$&lt;/IntervalSeconds&gt;&lt;Uri&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Uri$&lt;/Uri&gt;&lt;Method&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Method$&lt;/Method&gt;&lt;Format&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Format$&lt;/Format&gt;&lt;ValuePath&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/ValuePath$&lt;/ValuePath&gt;&lt;PostBody&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/PostBody$&lt;/PostBody&gt;</DataSourceConfig>
+            <DataSourceType>HackaSCOM.Perspective.Monitoring.Module.GetRestValueDataSource</DataSourceType>
+          </RuleDataSourceItem>
+        </DataSources>
+        <ConditionDetectionConfig>&lt;ObjectName&gt;API Connection&lt;/ObjectName&gt;&lt;CounterName&gt;API Results&lt;/CounterName&gt;&lt;InstanceName&gt;Parsed Result&lt;/InstanceName&gt;&lt;Value&gt;$Data/Property[@Name='Value']$&lt;/Value&gt;</ConditionDetectionConfig>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <ConditionDetectionType>Perf!System.Performance.DataGenericMapper</ConditionDetectionType>
+        <WriteActions>
+          <RuleWriteActionItem>
+            <WriteActionId>WADW</WriteActionId>
+            <WriteActionType>MSDL!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData</WriteActionType>
+          </RuleWriteActionItem>
+          <RuleWriteActionItem>
+            <WriteActionId>WADB</WriteActionId>
+            <WriteActionType>SC!Microsoft.SystemCenter.CollectPerformanceData</WriteActionType>
+          </RuleWriteActionItem>
+        </WriteActions>
+      </CustomRuleConfig>
+    </Instance>
+    <Instance ID="Instance2c124c6a90ed4ccfa58af2d1f06d7ab3" Type="Microsoft.SystemCenter.Authoring.CodeGeneration.Monitoring.CustomRule" Version="1.0.0.0">
+      <CustomRuleConfig xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+        <Id>CollectApiPerformance</Id>
+        <DisplayName>Collect API Performance</DisplayName>
+        <Description>Collects performance data on how long the REST call took to complete</Description>
+        <Category>None</Category>
+        <ConfirmDelivery>false</ConfirmDelivery>
+        <Target>HackaSCOM.Perspective.Monitoring.ApiSimplePerspective</Target>
+        <Enabled>true</Enabled>
+        <Remotable>true</Remotable>
+        <Priority>Normal</Priority>
+        <DiscardLevel>100</DiscardLevel>
+        <DataSources>
+          <RuleDataSourceItem>
+            <DataSourceId>DS</DataSourceId>
+            <DataSourceConfig>&lt;IntervalSeconds&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/IntervalSeconds$&lt;/IntervalSeconds&gt;&lt;Uri&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Uri$&lt;/Uri&gt;&lt;Method&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Method$&lt;/Method&gt;&lt;Format&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/Format$&lt;/Format&gt;&lt;ValuePath&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/ValuePath$&lt;/ValuePath&gt;&lt;PostBody&gt;$Target/Property[Type="HackaSCOM.Perspective.Monitoring.ApiSimplePerspective"]/PostBody$&lt;/PostBody&gt;</DataSourceConfig>
+            <DataSourceType>HackaSCOM.Perspective.Monitoring.Module.GetRestValueDataSource</DataSourceType>
+          </RuleDataSourceItem>
+        </DataSources>
+        <ConditionDetectionConfig>&lt;ObjectName&gt;API Connection&lt;/ObjectName&gt;&lt;CounterName&gt;Connection Duration&lt;/CounterName&gt;&lt;InstanceName&gt;Overall MS&lt;/InstanceName&gt;&lt;Value&gt;$Data/Property[@Name='MS']$&lt;/Value&gt;</ConditionDetectionConfig>
+        <ConditionDetectionId>CD</ConditionDetectionId>
+        <ConditionDetectionType>Perf!System.Performance.DataGenericMapper</ConditionDetectionType>
+        <WriteActions>
+          <RuleWriteActionItem>
+            <WriteActionId>WADW</WriteActionId>
+            <WriteActionType>MSDL!Microsoft.SystemCenter.DataWarehouse.PublishPerformanceData</WriteActionType>
+          </RuleWriteActionItem>
+          <RuleWriteActionItem>
+            <WriteActionId>WADB</WriteActionId>
+            <WriteActionType>SC!Microsoft.SystemCenter.CollectPerformanceData</WriteActionType>
+          </RuleWriteActionItem>
+        </WriteActions>
+      </CustomRuleConfig>
+    </Instance>
+  </Instances>
+</TemplateGroup>
