@@ -3,7 +3,7 @@
     <UIPageSets>
       <UIPageSet ID="HackaSCOM.Perspective.Authoring.ApiConnectionPageSet" TypeDefinitionID="HackaSCOM.Perspective.Authoring.ApiTemplate">
         <UIPageReferences>
-          <UIPageReference ID="CHRW.Custom.QueueAuthoring.DBQueue.TemplatePageSet.Reference.NameAndDescription" PageID="System!System.NameAndDescriptionPage" Usage="CreationAndUpdate">
+          <UIPageReference ID="HackaSCOM.Perspective.Authoring.ApiConnectionPageSet.NameAndDescription" PageID="System!System.NameAndDescriptionPage" Usage="CreationAndUpdate">
             <InputTransform>
               <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
                 <xsl:output method="xml" indent="yes" omit-xml-declaration="yes" />
